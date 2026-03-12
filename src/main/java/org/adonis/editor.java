@@ -6,6 +6,7 @@ import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.plaf.metal.OceanTheme;
 import javax.tools.JavaCompiler;
 import javax.tools.ToolProvider;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
@@ -92,11 +93,30 @@ class editor extends JFrame implements ActionListener {
        f.setJMenuBar(mb);
        JScrollPane scroll = new JScrollPane(t);
        scroll.setRowHeaderView(new LineNumberPanel(t));
-       f.add(scroll);
+       File rootDir = new File(System.getProperty("user.home"));
+       JTree tree = new FileTree(rootDir);
+       JScrollPane treeScroll = new JScrollPane(tree);
+
+       JSplitPane splitPane = new JSplitPane (
+               JSplitPane.HORIZONTAL_SPLIT,
+               treeScroll,
+               scroll
+       );
+       splitPane.setDividerLocation(250);
+
+       f.add(splitPane, BorderLayout.CENTER);
+       instance = this;
+
        f.setSize(500, 500);
        f.setVisible(true);
 
     }
+    private static editor instance;
+
+    public static editor getInstance() {
+        return instance;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String s = e.getActionCommand();
@@ -224,6 +244,7 @@ class editor extends JFrame implements ActionListener {
 
     public static void main(String[] args) {
         editor e = new editor();
+
     }
 
     public void openWebPage(String url) {
@@ -234,4 +255,8 @@ class editor extends JFrame implements ActionListener {
         }
     }
 
+
+    public void setEditorText(String text) {
+        t.setText(text);
+    }
 }
