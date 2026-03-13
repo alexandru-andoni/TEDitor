@@ -1,3 +1,9 @@
+//literally just ignore this code
+//it was a sample code that i tried to compile using the editor
+//no relevancy whatsoever with the actual thing
+//cheers
+//al
+
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
